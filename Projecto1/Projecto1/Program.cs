@@ -3,42 +3,56 @@
 
 namespace Projecto1
 {
+    // En C# este paso es necesario, previo a declarar el evento dentro de una clase
+    public delegate void AttackEventHandler(int damage); // Primero declaro el tipo de dato del evento
+
     class Program
     {
         static void Main()
         {
+            // Player
             Character pepe = new Character();
-            Character enemigo = new Character();
-            FireRing Anillo = new FireRing();
-            SpikeArmour armadura = new SpikeArmour();
 
-
-            Console.WriteLine("Armour test (Action being overwritted to change the target of the damage)");
-            armadura.Equip(enemigo);
-            enemigo.reciveDamage(10, pepe);
+            // Crear pull de enemigos
+            Enemy enemigo = new Enemy(pepe);
+            Enemy enemigo2 = new Enemy(pepe);
+            Enemy enemigo3 = new Enemy(pepe);
+            Enemy enemigo4 = new Enemy(pepe);
             
+            //FireRing Anillo = new FireRing();
+            //SpikeArmour armadura = new SpikeArmour();
 
-            Console.ReadLine();
-            Console.Clear();
 
-            Console.WriteLine("Action making 2 attacks at the same time with just one call");
-            Anillo.Equip(pepe);
+            //Console.WriteLine("Armour test (Action being overwritted to change the target of the damage)");
+            
+            //armadura.Equip(enemigo);
+            pepe.Attack(50);
+            Console.WriteLine("Soy el enemigo y tengo esta vida:" + enemigo.Health);
+            Console.WriteLine("Soy el enemigo2 y tengo esta vida:" + enemigo2.Health);
+            Console.WriteLine("Soy el enemigo3 y tengo esta vida:" + enemigo3.Health);
+            Console.WriteLine("Soy el enemigo4 y tengo esta vida:" + enemigo4.Health);
 
-            pepe.attack(enemigo);
+          //  Console.ReadLine();
+          //  Console.Clear();
 
-            Console.ReadLine();
-            Console.Clear();
+          //  Console.WriteLine("Action making 2 attacks at the same time with just one call");
+          //  Anillo.Equip(pepe);
 
-            Console.WriteLine("Unequip object and attacking again");
-            Anillo.Unequip();
+          //  pepe.Attack(enemigo);
 
-            pepe.attack(enemigo);
-            Console.ReadLine();
+          //  Console.ReadLine();
+          //  Console.Clear();
+
+          //  Console.WriteLine("Unequip object and attacking again");
+          //  Anillo.Unequip();
+
+          //  pepe.Attack(enemigo);
+          //  Console.ReadLine();
 
 
         }
     }
-
+/*
     public class FireRing
     {
         private Character owner = null;
@@ -46,13 +60,13 @@ namespace Projecto1
         {
             owner = newOwner;
             Console.WriteLine("Anillo Equipado");
-            newOwner.attack += OwnerAttack;
+            newOwner.OnAttack += OwnerAttack;
         }
         public void Unequip()
         {
-            if (owner.attack != null)
+            if (owner.OnAttack != null)
             {
-                owner.attack -= OwnerAttack; 
+                owner.OnAttack -= OwnerAttack; 
                 owner = null;
                 Console.WriteLine("No equipado");
                
@@ -79,7 +93,7 @@ namespace Projecto1
         }
         public void Unequip()
         {
-            if (owner.attack != null)
+            if (owner.OnAttack != null)
             {
                 owner.reciveDamage -= OwnerRecivesDamage;
                 owner.reciveDamage += owner.damageManager;
@@ -92,32 +106,55 @@ namespace Projecto1
             Console.WriteLine("La armadura recive el daño y ataca en su lugar");
         }
     }
-
+*/
+    
     public class Character
     {
         public string name;
-        public Action<Character> attack;
-        public Action<int, Character> reciveDamage;
+        public event AttackEventHandler OnAttack; // Preparo el tipo de dato del evento que voy a publicar
 
         public Character()
         {
             name = "pepe";
-            attack += Attack;
-            reciveDamage += damageManager;
         }
 
-        public void Attack(Character target)
-        {
-            Console.WriteLine($"El personaje ataca a {target.name}");
-            target.damageManager(10, this);
-        }
 
-        public void damageManager(int damage, Character damageDealer)
+        public void Attack(int damage)
         {
-            Console.WriteLine($"Has recivido daño de parte de {name}");
+            Console.WriteLine($"El personaje ataca!!!");
+
+            // Si este metodo se ejecuta, este evento sera publicado, y alguien devera subscribirse, 
+            // de otro modo, solo se ejecutara el Console.WriteLine de arriba
+            OnAttack?.Invoke(damage); 
         }
 
        
+    }
+
+    public class Enemy
+    {
+        Character player; // Preparo el tipo de dato del publicador del evento
+        public int Health = 100;
+
+        // Constructor del objeto, se llama al inicializar el objeto
+        public Enemy(Character player) // Obtengo la referencia del publicador
+        {
+            this.player = player; // Copio la referencia en mi propiedad de clase para luego usarla en otro metodo
+            this.player.OnAttack += receiveDamage; // Me subscribo a su evento, guardame el metodo de esta clase, que quiero que sea disparado cuando el player lo invoque
+        }
+
+        // Destructor del objeto, se llama cuando no se usa mas y es recolectado
+        ~Enemy()
+        {
+            player.OnAttack -= receiveDamage; // Me desubscribo de su evento
+        }
+
+        // Yo elijo este metodo para "escuchar" el evento de ataque del player
+        public void receiveDamage(int damage)
+        {
+            Console.WriteLine($"Has recivido daño de parte de {player.name}");  
+            Health -= damage + 10;         
+        }
     }
    
 }
