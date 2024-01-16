@@ -5,3 +5,10 @@ C:\Users\Usuario\Desktop\Carpeta Programas\Projecto1\Projecto1\obj\Debug\Project
 C:\Users\Usuario\Desktop\Carpeta Programas\Projecto1\Projecto1\obj\Debug\Projecto1.csproj.CoreCompileInputs.cache
 C:\Users\Usuario\Desktop\Carpeta Programas\Projecto1\Projecto1\obj\Debug\Projecto1.exe
 C:\Users\Usuario\Desktop\Carpeta Programas\Projecto1\Projecto1\obj\Debug\Projecto1.pdb
+C:\Users\esteb\source\playground\csharp\estebanmatias92.Events\Projecto1\Projecto1\bin\Debug\Projecto1.exe.config
+C:\Users\esteb\source\playground\csharp\estebanmatias92.Events\Projecto1\Projecto1\bin\Debug\Projecto1.exe
+C:\Users\esteb\source\playground\csharp\estebanmatias92.Events\Projecto1\Projecto1\bin\Debug\Projecto1.pdb
+C:\Users\esteb\source\playground\csharp\estebanmatias92.Events\Projecto1\Projecto1\obj\Debug\Projecto1.csproj.AssemblyReference.cache
+C:\Users\esteb\source\playground\csharp\estebanmatias92.Events\Projecto1\Projecto1\obj\Debug\Projecto1.csproj.CoreCompileInputs.cache
+C:\Users\esteb\source\playground\csharp\estebanmatias92.Events\Projecto1\Projecto1\obj\Debug\Projecto1.exe
+C:\Users\esteb\source\playground\csharp\estebanmatias92.Events\Projecto1\Projecto1\obj\Debug\Projecto1.pdb
